@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  jupyter: 
+    container_name: 'jupyter'
+    image: docker.io/jupyter/pyspark-notebook
+    ports: 
+      - "8888:8888"
+    volumes:
+      - ./jupyterhome:/home/jovyan/work
+      - ./postgresql-42.2.10.jar:/usr/local/spark/jars/postgresql-42.2.10.jar
+    environment: 
+      PWD: /home/jovyan/work
+    depends_on: 
+      - database
+  database:
+    container_name: 'postgres'
+    image: postgres
+    ports:
+      - "15432:5432"
+    environment: 
+      POSTGRES_PASSWORD: postgres
